@@ -1,0 +1,80 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-16.04
+    attributes:
+      ipa:
+        replica:
+          skip-conncheck: true
+          dns-options:
+            forwarders: none
+            reverse-zones:
+              - 0.22.172.in-addr.arpa.
+  - name: ubuntu-14.04
+
+
+suites:
+  - name: bootstrap
+    driver:
+      vm_hostname: bootstrap.ipa.example.com
+      network:
+        - ['private_network', {ip: '172.22.0.10'}]
+      customize:
+        memory: 1024
+    run_list:
+      - recipe[test-helpers::hostsfile-fixup]
+      - recipe[test-helpers::ip-attribute-fixup]
+      - recipe[apt]
+      - recipe[ipa::bootstrap]
+      - recipe[test-helpers::resolvconf-fixup]
+    excludes: ubuntu-14.04
+
+  - name: replica
+    driver:
+      vm_hostname: replica.ipa.example.com
+      network:
+        - ['private_network', {ip: '172.22.0.11'}]
+      customize:
+        memory: 1024
+    run_list:
+      - recipe[test-helpers::resolvconf-fixup]
+      - recipe[test-helpers::hostsfile-fixup]
+      - recipe[test-helpers::ip-attribute-fixup]
+      - recipe[apt]
+      - recipe[ipa::replica]
+    excludes: ubuntu-14.04
+
+  - name: client-14
+    driver:
+      vm_hostname: client-14.ipa.example.com
+      network:
+        - ['private_network', {ip: '172.22.0.14'}]
+      customize:
+        memory: 256
+    run_list:
+      - recipe[test-helpers::resolvconf-fixup]
+      - recipe[test-helpers::hostsfile-fixup]
+      - recipe[test-helpers::ip-attribute-fixup]
+      - recipe[apt]
+      - recipe[ipa]
+    excludes: ubuntu-16.04
+
+  - name: client-16
+    driver:
+      vm_hostname: client-16.ipa.example.com
+      network:
+        - ['private_network', {ip: '172.22.0.16'}]
+      customize:
+        memory: 256
+    run_list:
+      - recipe[test-helpers::resolvconf-fixup]
+      - recipe[test-helpers::hostsfile-fixup]
+      - recipe[test-helpers::ip-attribute-fixup]
+      - recipe[apt]
+      - recipe[ipa]
+    excludes: ubuntu-14.04
