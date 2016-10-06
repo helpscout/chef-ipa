@@ -25,8 +25,7 @@ Theoretically supported, but untested:
 
 ### ipa::default
 
-This recipe includes either `ipa::client` or `ipa::replica` based on
-`node['ipa']['role']`
+This recipe is an alias for ipa::client
 
 ### ipa::client
 
