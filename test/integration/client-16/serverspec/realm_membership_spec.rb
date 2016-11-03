@@ -1,0 +1,1 @@
+../../common/serverspec/realm_membership_spec.rb

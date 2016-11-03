@@ -1,0 +1,1 @@
+../../common/serverspec/pki_spec.rb

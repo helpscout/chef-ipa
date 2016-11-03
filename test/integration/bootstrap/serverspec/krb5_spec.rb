@@ -1,0 +1,1 @@
+../../common/serverspec/krb5_spec.rb
