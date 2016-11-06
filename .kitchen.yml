@@ -77,4 +77,5 @@ suites:
       - recipe[test-helpers::ip-attribute-fixup]
       - recipe[apt]
       - recipe[ipa]
+      - recipe[test-helpers::request-cert]
     excludes: ubuntu-14.04
