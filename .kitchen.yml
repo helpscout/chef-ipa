@@ -62,6 +62,7 @@ suites:
       - recipe[test-helpers::ip-attribute-fixup]
       - recipe[apt]
       - recipe[ipa]
+      - recipe[test-helpers::request-test-certs]
     excludes: ubuntu-16.04
 
   - name: client-16
@@ -77,5 +78,5 @@ suites:
       - recipe[test-helpers::ip-attribute-fixup]
       - recipe[apt]
       - recipe[ipa]
-      - recipe[test-helpers::request-cert]
+      - recipe[test-helpers::request-test-certs]
     excludes: ubuntu-14.04

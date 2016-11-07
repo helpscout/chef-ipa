@@ -33,13 +33,13 @@ action :create do
     owner key_user
     group key_group
     path key_path
-    subscribes :create, "execute[certificate reqeust #{request_name}", :immediate
+    subscribes :create, "execute[certificate reqeust #{request_name}", :delay
   end
 
   file "#{request_name} certificate" do
     owner key_user
     group key_group
     path cert_path
-    subscribes :create, "execute[certificate reqeust #{request_name}", :immediate
+    subscribes :create, "execute[certificate reqeust #{request_name}", :delay
   end
 end
