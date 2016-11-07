@@ -40,23 +40,15 @@ existing realm.
 
 Installs the IPA server packages, then creates a new realm.
 
-### TODO
-## Custom Resources
+### ipa::workarounds
+
+This recipe deals with the brokenness of IPA on Debian/Ubuntu
 
 ### Request a Certificate
 
 ```ruby
 ipa_certificate 'rabbitmq-cert' do
+  key_path  '/etc/ssl/private/rabbitmq.key'
+  cert_path '/etc/ssl/certs/rabbitmq.crt'
 end
 ```
-
-### Request a Keytab
-
-```ruby
-ipa_keytab 'nginx-keytab' do
-end
-```
-
-## Workarounds
-* Homedir Creation
-* sssd [ssh] ca_db = /etc/ipa/nssdb

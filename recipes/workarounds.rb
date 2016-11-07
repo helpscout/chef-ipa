@@ -18,8 +18,30 @@
 # limitations under the License.
 #
 
-if node['ipa']['client']['mkhomedir']
-  ipa_installer_cmd += [ '--mkhomedir' ]
+case node[:platform]
+# Ubuntu/Debian Workarounds
+when 'ubuntu', 'debian'
+# mkhomedir
+  if node['ipa']['client']['mkhomedir']
+    bash 'Enable Home Directory Creation' do
+      code "echo 'session optional        pam_mkhomedir.so' >> /etc/pamd.d/common-session"
+      not_if 'grep mkhomedir /etc/pamd.d/common-session'
+    end
+  end
+
+# sudo
+  unless node['ipa']['client']['sudo']
+    bash 'Enable SSSD sudo support' do
+      code "sed -i -e 's/^services =.*$/services = nss, sudo, pam, ssh/g' /etc/sssd/sssd.conf"
+      not_if 'grep sudo /etc/sssd/sssd.conf'
+    end
+  end
+
+# ssh ca path
+  bash 'Enable SSH CA Path' do
+    code 'echo ca_db = /etc/ipa/nssdb >> /etc/ssh/sshd_config'
+    not_if 'grep ca_db /etc/ssh/sshd_config'
+  end
 end
 
 
