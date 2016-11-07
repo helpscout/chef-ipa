@@ -25,7 +25,7 @@ default['ipa']['client']['force-join']    = false
 default['ipa']['client']['hostname']      = nil
 default['ipa']['client']['nisdomain']     = nil
 
-default['ipa']['client']['mkhomedir']     = false
+default['ipa']['client']['mkhomedir']     = true
 default['ipa']['client']['ntp']           = true
 default['ipa']['client']['sudo']          = true
 default['ipa']['client']['request-cert']  = false

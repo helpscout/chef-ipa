@@ -24,8 +24,8 @@ when 'ubuntu', 'debian'
 # mkhomedir
   if node['ipa']['client']['mkhomedir']
     bash 'Enable Home Directory Creation' do
-      code "echo 'session optional        pam_mkhomedir.so' >> /etc/pamd.d/common-session"
-      not_if 'grep mkhomedir /etc/pamd.d/common-session'
+      code "echo 'session optional        pam_mkhomedir.so' >> /etc/pam.d/common-session"
+      not_if 'grep mkhomedir /etc/pam.d/common-session'
     end
   end
 
