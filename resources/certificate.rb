@@ -4,7 +4,13 @@ property :nickname, String, name_property: true
 
 property :pem_ca, String
 property :pem_cert, String, required: true
+property :pem_cert_owner, String, default: 'root'
+property :pem_cert_group, String, default: 'root'
+property :pem_cert_mode,  String, default: '0600'
 property :pem_key, String, required: true
+property :pem_key_owner, String, default: 'root'
+property :pem_key_group, String, default: 'root'
+property :pem_key_mode,  String, default: '0600'
 
 property :key_size, Fixnum
 
@@ -28,8 +34,8 @@ action :request do
   #cmd += ['-w']
 
   cmd += ['-F', pem_ca] if pem_ca
-  cmd += ['-f', pem_cert] if pem_cert
-  cmd += ['-k', pem_key] if pem_key
+  cmd += ['-f', pem_cert]
+  cmd += ['-k', pem_key]
 
   cmd += ['-g', key_size] if key_size
 
@@ -56,6 +62,18 @@ action :request do
     command cmd
     not_if "ipa-getcert list -i #{nickname}"
     notifies :run, 'ruby_block[wait on certmonger to issue certificate]', :immediately
+  end
+
+  file pem_cert do
+    owner pem_cert_owner
+    group pem_cert_group
+    mode  pem_cert_mode
+  end
+
+  file pem_key do
+    owner pem_key_owner
+    group pem_key_group
+    mode  pem_key_mode
   end
 
 end
