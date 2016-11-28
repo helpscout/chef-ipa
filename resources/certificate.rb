@@ -21,7 +21,7 @@ default_action :request
 action :request do
   cmd = ['ipa-getcert']
   cmd += ['request']
-  cmd += ['-I', nickname ]
+  cmd += ['-I', nickname]
 
   # Attempt to wait until certificate has been issued
   # Only available in 16.04+
