@@ -46,9 +46,14 @@ This recipe deals with the brokenness of IPA on Debian/Ubuntu
 
 #### Attributes
 * nickname
-* pem_ca
 * pem_cert
+* pem_cert_owner
+* pem_cert_group
+* pem_cert_mode
 * pem_key
+* pem_key_owner
+* pem_key_group
+* pem_key_mode
 * key_size
 * auto_renew
 * req_subject
@@ -71,3 +76,19 @@ ipa_certificate 'fqdn-cert' do
   req_subject   node['fqdn']
   req_principal "host/#{node['fqdn']}"
 end
+```
+
+```ruby
+ipa_certificate 'fqdn-cert-rabbitmq' do
+  pem_cert       '/etc/rabbitmq/fqdn-cert-rabbitmq.crt'
+  pem_cert_owner 'rabbitmq'
+  pem_cert_group 'rabbitmq'
+  pem_cert_mode  '0655'
+  pem_key        '/etc/rabbitmq/fqdn-cert-rabbitmq.key'
+  pem_key_owner  'rabbitmq'
+  pem_key_group  'rabbitmq'
+  pem_key_mode   '0660'
+  req_subject    node['fqdn']
+  req_principal  "host/#{node['fqdn']}"
+end
+```
