@@ -12,11 +12,6 @@ This cookbook provides custom resources and recipes to install and configure
 * Ubuntu 14.04 - Client Only
 * Ubuntu 16.04 - Client or Replica
 
-Theoretically supported, but untested:
-
-* CentOS 7+   - Client Only
-* CentOS 7.3+ - Client or Replica
-
 ### Chef
 
 * 12.5+
@@ -46,9 +41,33 @@ This recipe deals with the brokenness of IPA on Debian/Ubuntu
 
 ### Request a Certificate
 
+#### Actions
+* request
+
+#### Attributes
+* nickname
+* pem_ca
+* pem_cert
+* pem_key
+* key_size
+* auto_renew
+* req_subject
+* req_principal
+* req_dns
+* cmd_presave
+* cmd_postsave
+
 ```ruby
-ipa_certificate 'rabbitmq-cert' do
-  key_path  '/etc/ssl/private/rabbitmq.key'
-  cert_path '/etc/ssl/certs/rabbitmq.crt'
+ipa_certificate 'short-hostname-cert' do
+  pem_cert  '/tmp/short-hostname-cert.crt'
+  pem_key   '/tmp/short-hostname-cert.key''
 end
 ```
+
+```ruby
+ipa_certificate 'fqdn-cert' do
+  pem_cert      '/tmp/fqdn-cert.crt'
+  pem_key       '/tmp/fqdn-cert.key'
+  req_subject   node['fqdn']
+  req_principal "host/#{node['fqdn']}"
+end
