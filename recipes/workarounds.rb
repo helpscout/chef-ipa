@@ -37,10 +37,10 @@ when 'ubuntu', 'debian'
     end
   end
 
-# ssh ca path
+# Kinda ugly way to ensure sssd is configured to use IPA's CA
   bash 'Enable SSH CA Path' do
-    code 'echo ca_db = /etc/ipa/nssdb >> /etc/ssh/sshd_config'
-    not_if 'grep ca_db /etc/ssh/sshd_config'
+    code 'sed -i -e "s|\(\[ssh\]\)|\1\nca_db = /etc/ipa/nssdb|" /etc/sssd/sssd.conf'
+    not_if 'grep ca_db /etc/sssd/sssd.conf'
   end
 end
 
