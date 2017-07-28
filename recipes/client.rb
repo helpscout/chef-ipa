@@ -64,6 +64,14 @@ if node['ipa']['client']['request-cert']
   ipa_installer_cmd += [ '--request-cert' ]
 end
 
+unless node['ipa']['client']['domain'].nil?
+  ipa_installer_cmd += [ '--domain', node['ipa']['client']['domain'] ]
+end
+
+if node['ipa']['client']['force-ntpd']
+  ipa_installer_cmd += [ '--force-ntpd' ]
+end
+
 execute 'join realm' do
   command ipa_installer_cmd
   creates '/etc/ipa/default.conf'

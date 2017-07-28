@@ -30,4 +30,6 @@ default['ipa']['client']['ntp']           = true
 default['ipa']['client']['sudo']          = true
 default['ipa']['client']['request-cert']  = false
 
+default['ipa']['client']['domain'] = nil
+default['ipa']['client']['force-ntpd'] = false
 # vim: ai ts=2 sts=2 et sw=2 ft=ruby

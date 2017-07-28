@@ -22,8 +22,10 @@ include_recipe 'ipa::replica_install'
 
 # Bootstrapping always requires a realm. If an attribute isn't set, then
 # we set the realm based on this node's domain.
+domain = node['ipa']['domain'] || node['domain']
+
 if node['ipa']['realm'].nil?
-  realm = node['domain'].upcase
+  realm = domain.upcase
 else
   realm = node['ipa']['realm']
 end
@@ -33,6 +35,7 @@ ipa_installer_cmd = [ 'ipa-server-install', '-U' ]
 ipa_installer_cmd += [ '-r', realm]
 ipa_installer_cmd += [ '-a', node['ipa']['replica']['bootstrap']['admin_pw']]
 ipa_installer_cmd += [ '-p', node['ipa']['replica']['bootstrap']['dirmn_pw']]
+ipa_installer_cmd += [ '-n', domain]
 
 # DNS related options
 if node['ipa']['replica']['dns'] == true
