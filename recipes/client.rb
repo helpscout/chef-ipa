@@ -66,6 +66,10 @@ if node['ipa']['client']['request-cert']
   ipa_installer_cmd += [ '--request-cert' ]
 end
 
+if node['ipa']['client']['enable-dns-updates']
+  ipa_installer_cmd += [ '--enable-dns-updates' ]
+end
+
 execute 'join realm' do
   command ipa_installer_cmd
   creates '/etc/ipa/default.conf'

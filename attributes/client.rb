@@ -18,16 +18,17 @@
 # limitations under the License.
 #
 
-default['ipa']['client']['server']        = nil
-default['ipa']['client']['fixed-primary'] = false
-default['ipa']['client']['force-join']    = false
+default['ipa']['client']['server']             = nil
+default['ipa']['client']['fixed-primary']      = false
+default['ipa']['client']['force-join']         = false
 
-default['ipa']['client']['hostname']      = nil
-default['ipa']['client']['nisdomain']     = nil
+default['ipa']['client']['hostname']           = nil
+default['ipa']['client']['nisdomain']          = nil
 
-default['ipa']['client']['mkhomedir']     = true
-default['ipa']['client']['ntp']           = true
-default['ipa']['client']['sudo']          = true
-default['ipa']['client']['request-cert']  = false
+default['ipa']['client']['mkhomedir']          = true
+default['ipa']['client']['ntp']                = true
+default['ipa']['client']['sudo']               = true
+default['ipa']['client']['request-cert']       = false
+default['ipa']['client']['enable-dns-updates'] = true
 
 # vim: ai ts=2 sts=2 et sw=2 ft=ruby
