@@ -30,10 +30,10 @@ when 'ubuntu', 'debian'
   end
 
 # sudo
-  unless node['ipa']['client']['sudo']
+  if node['ipa']['client']['sudo']
     bash 'Enable SSSD sudo support' do
       code "sed -i -e 's/^services =.*$/services = nss, sudo, pam, ssh/g' /etc/sssd/sssd.conf"
-      not_if 'grep sudo /etc/sssd/sssd.conf'
+      not_if 'grep -e \'^services = .*sudo\' /etc/sssd/sssd.conf'
     end
   end
 
