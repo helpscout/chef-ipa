@@ -29,7 +29,9 @@ end
 ipa_installer_cmd += [ '-w', node['ipa']['provisioning_pass']]
 
 unless node['ipa']['client']['server'].nil?
+  raise "FATAL: node['ipa']['domain'] must be specified when using node['ipa']['client']['server']" if node['ipa']['domain'].nil?
   ipa_installer_cmd += [ '--server', node['ipa']['client']['server']]
+  ipa_installer_cmd += [ '--domain', node['ipa']['domain']]
 end
 
 if node['ipa']['client']['server']
@@ -62,6 +64,10 @@ end
 
 if node['ipa']['client']['request-cert']
   ipa_installer_cmd += [ '--request-cert' ]
+end
+
+if node['ipa']['client']['enable-dns-updates']
+  ipa_installer_cmd += [ '--enable-dns-updates' ]
 end
 
 execute 'join realm' do
