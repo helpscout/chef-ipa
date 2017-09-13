@@ -18,68 +18,16 @@
 # limitations under the License.
 #
 
-include_recipe 'ipa::replica_install'
-
-# Bootstrapping always requires a realm. If an attribute isn't set, then
-# we set the realm based on this node's domain.
-if node['ipa']['realm'].nil?
-  realm = node['domain'].upcase
-else
-  realm = node['ipa']['realm']
+ipa_bootstrap 'bootstrap' do
+  realm node['ipa']['realm']
+  admin_pw               node['ipa']['replica']['bootstrap']['admin_pw']
+  dirmn_pw               node['ipa']['replica']['bootstrap']['dirmn_pw']
+  dns                    node['ipa']['replica']['dns']
+  dns_forwarders         node['ipa']['replica']['dns-options']['forwarders']
+  dns_reverse_zones      node['ipa']['replica']['dns-options']['reverse-zones']
+  dns_allow_zone_overlap node['ipa']['replica']['dns-options']['allow-zone-overlap']
+  dns_dnssec_validation  node['ipa']['replica']['dns-options']['dnssec-validation']
+  kra                    node['ipa']['replica']['kra']
 end
 
-# Build the installer command from our attributes
-ipa_installer_cmd = [ 'ipa-server-install', '-U' ]
-ipa_installer_cmd += [ '-r', realm]
-ipa_installer_cmd += [ '-a', node['ipa']['replica']['bootstrap']['admin_pw']]
-ipa_installer_cmd += [ '-p', node['ipa']['replica']['bootstrap']['dirmn_pw']]
-
-# DNS related options
-if node['ipa']['replica']['dns'] == true
-  ipa_installer_cmd += ['--setup-dns']
-
-  case node['ipa']['replica']['dns-options']['forwarders']
-  when 'none'
-    ipa_installer_cmd += ['--no-forwarders']
-  when 'auto'
-    ipa_installer_cmd += ['--auto-forwarders']
-  else
-    node['ipa']['replica']['dns-options']['forwarders'].each do |forwarder|
-      ipa_installer_cmd += ['--forwarder', forwarder ]
-    end
-  end
-
-  case node['ipa']['replica']['dns-options']['reverse-zones']
-  when 'none'
-    ipa_installer_cmd += ['--no-reverse']
-  when 'auto'
-    ipa_installer_cmd += ['--auto-reverse']
-  else
-    node['ipa']['replica']['dns-options']['reverse-zones'].each do |zone|
-      ipa_installer_cmd += ['--reverse-zone', zone ]
-    end
-  end
-
-  if node['ipa']['replica']['dns-options']['allow-zone-overlap'] == true
-    ipa_installer_cmd += ['--allow-zone-overlap']
-  end
-
-  if node['ipa']['replica']['dns-options']['dnssec-validation'] == false
-    ipa_installer_cmd += ['--no-dnssec-validation']
-  end
-end
-
-execute 'bootstrap ipa instance' do
-  command ipa_installer_cmd
-  creates '/etc/ipa/default.conf'
-end
-
-if node['ipa']['replica']['kra'] == true
-  execute 'bootstrap kra' do
-    command [ 'ipa-kra-install', '-p', node['ipa']['replica']['bootstrap']['dirmn_pw']]
-    creates '/var/lib/pki/pki-tomcat/kra'
-  end
-end
-
-include_recipe 'ipa::workarounds'
 # vim: ai ts=2 sts=2 et sw=2 ft=ruby

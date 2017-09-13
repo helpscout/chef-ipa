@@ -35,11 +35,69 @@ existing realm.
 
 Installs the IPA server packages, then creates a new realm.
 
-### ipa::workarounds
+## Resources
 
-This recipe deals with the brokenness of IPA on Debian/Ubuntu
+### ipa_bootstrap
 
-### Request a Certificate
+Installs the IPA server packages, then creates a new realm.
+
+#### Actions
+* install
+
+#### Attributes
+* realm
+* admin_pw
+* dirmn_pw
+* dns
+* dns_forwarders
+* dns_reverse_zones
+* dns_allow_zone_overlap
+* dns_dnssec_validation
+* kra
+
+-----------------------------------------------------------------------------------
+### ipa_replica
+
+Installs the IPA server packages, then joins and creates a replica of an
+existing realm.
+
+#### Actions
+* install
+
+#### Attributes
+* dns
+* dns_forwarders
+* dns_reverse_zones
+* dns_allow_zone_overlap
+* dns_dnssec_validation
+* ca
+* kra
+* skip_conncheck
+
+-----------------------------------------------------------------------------------
+### ipa_client
+
+Installs the IPA client packages, then joins an existing realm.
+
+#### Actions
+* install
+
+#### Attributes
+* provisioning_user
+* provisioning_pass
+* server
+* domain
+* hostname
+* nisdomain
+* force_join
+* mkhomedir
+* ntp
+* sudo
+* request_cert
+* enable_dns_updates
+
+-----------------------------------------------------------------------------------
+### ipa_certificate
 
 #### Actions
 * request
