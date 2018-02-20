@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-case node[:platform]
+case node['platform']
 # Ubuntu/Debian Workarounds
 when 'ubuntu', 'debian'
 # mkhomedir
