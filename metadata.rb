@@ -10,6 +10,7 @@ issues_url        'https://github.com/helpscout/chef-ipa/issues'
 source_url        'https://github.com/helpscout/chef-ipa'
 
 supports          'ubuntu', '>= 14.04'
+supports          'redhat', '>= 6'
 chef_version      '>= 12.6'
 
 # vim: ai ts=2 sts=2 et sw=2 ft=ruby
