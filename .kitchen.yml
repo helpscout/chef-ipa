@@ -16,6 +16,8 @@ platforms:
             reverse-zones:
               - 0.22.172.in-addr.arpa.
   - name: ubuntu-14.04
+  - name: centos-6
+  - name: centos-7
 
 
 suites:
@@ -32,7 +34,10 @@ suites:
       - recipe[apt]
       - recipe[ipa::bootstrap]
       - recipe[test-helpers::resolvconf-fixup]
-    excludes: ubuntu-14.04
+    excludes:
+      - ubuntu-14.04
+      - centos-6
+      - centos-7
 
   - name: replica
     driver:
@@ -47,7 +52,10 @@ suites:
       - recipe[test-helpers::ip-attribute-fixup]
       - recipe[apt]
       - recipe[ipa::replica]
-    excludes: ubuntu-14.04
+    excludes:
+      - ubuntu-14.04
+      - centos-6
+      - centos-7
 
   - name: client-14
     driver:
@@ -63,7 +71,10 @@ suites:
       - recipe[apt]
       - recipe[ipa]
       - recipe[test-helpers::request-test-certs]
-    excludes: ubuntu-16.04
+    excludes:
+      - ubuntu-16.04
+      - centos-6
+      - centos-7
 
   - name: client-16
     driver:
@@ -79,4 +90,44 @@ suites:
       - recipe[apt]
       - recipe[ipa]
       - recipe[test-helpers::request-test-certs]
-    excludes: ubuntu-14.04
+    excludes:
+     - ubuntu-14.04
+     - centos-6
+     - centos-7
+
+  - name: client-el6
+    driver:
+      vm_hostname: client-el6.ipa.example.com
+      network:
+        - ['private_network', {ip: '172.22.0.17'}]
+      customize:
+        memory: 256
+    run_list:
+      - recipe[test-helpers::resolvconf-fixup]
+      - recipe[test-helpers::hostsfile-fixup]
+      - recipe[test-helpers::ip-attribute-fixup]
+      - recipe[ipa]
+      - recipe[test-helpers::request-test-certs]
+    excludes:
+      - ubuntu-14.04
+      - ubuntu-16.04
+      - centos-7
+
+  - name: client-el7
+    driver:
+      vm_hostname: client-el7.ipa.example.com
+      network:
+        - ['private_network', {ip: '172.22.0.18'}]
+      customize:
+        memory: 256
+    run_list:
+      - recipe[test-helpers::resolvconf-fixup]
+      - recipe[test-helpers::hostsfile-fixup]
+      - recipe[test-helpers::ip-attribute-fixup]
+      - recipe[ipa]
+      - recipe[test-helpers::request-test-certs]
+    excludes:
+      - ubuntu-14.04
+      - ubuntu-16.04
+      - centos-6
+
