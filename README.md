@@ -11,6 +11,9 @@ This cookbook provides custom resources and recipes to install and configure
 
 * Ubuntu 14.04 - Client Only
 * Ubuntu 16.04 - Client or Replica
+* CentOS 6  - Client Only
+* CentOS 7 - Client Only
+
 
 ### Chef
 
